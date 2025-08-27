@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-  # 允许你手动触发
+  # 允许你手动触发这个
   workflow_dispatch:
 
 jobs:
