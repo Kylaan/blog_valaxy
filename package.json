@@ -20,6 +20,7 @@
     "valaxy-theme-yun": "0.26.3"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "typescript": "^5.9.2"
   }
 }
