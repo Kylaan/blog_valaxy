@@ -1,0 +1,9 @@
+:root {
+    /* 背景图片 + 半透明白色遮罩 */
+    --yun-bg-img:
+        linear-gradient(rgba(255, 255, 255, 0.556), rgba(255, 255, 255, 0.885)),
+        url("./bg2.png");
+
+    /* 侧边栏背景图片保持不变 */
+    --yun-sidebar-bg-img: url("https://cdn.yunyoujun.cn/img/bg/alpha-stars-timing-1.webp");
+}
