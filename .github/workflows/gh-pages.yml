@@ -3,47 +3,41 @@
 name: Deploy to GitHub Pages
 
 on:
-  # 每当你推送到 main 分支时触发
   push:
     branches:
       - main
-  # 允许你手动触发这个
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. 检出你的仓库代码
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. 设置 pnpm
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8
 
-      # 3. 设置 Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
 
-      # 4. 安装依赖
+      # 1. 我们换回正确的、更安全的安装命令
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-        
-      # 5. 构建网站
+        run: pnpm install --frozen-lockfile
+
       - name: Build
         run: pnpm build
 
-      # 6. 部署到 gh-pages 分支
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          # 自动为你的域名创建 CNAME 文件
+          # 2. 这一行是解决 404 问题的关键！
+          # 它会自动在 gh-pages 分支创建 CNAME 文件
           cname: kylaan.top
