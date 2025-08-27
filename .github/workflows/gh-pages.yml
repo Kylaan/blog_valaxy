@@ -3,41 +3,37 @@ name: GitHub Pages
 on:
   push:
     branches:
-      # The branch where the project source code resides
-      # 项目源代码所在的分支
-      - main
-      - master
-      - valaxy
+      - main  # Or whichever branch you use for your source code
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        node-version: [lts/*]
-        os: [ubuntu-latest]
-      fail-fast: false
-
+  build-and-deploy: # Renamed job for clarity
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: 🚚 Checkout
+        uses: actions/checkout@v3 # Updated to a newer version
         with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: https://registry.npmjs.org/
+          fetch-depth: 0
+
+      - name: 🟢 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8 # Use a specific version of pnpm
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3 # Updated to a newer version
+        with:
+          node-version: '18' # Use a specific LTS version of Node.js
+          cache: 'pnpm' # Enable caching for pnpm to speed up future runs
 
       - name: 📦 Install Dependencies
-        run: npm i
+        run: pnpm install --frozen-lockfile
 
       - name: 🌌 Build Valaxy Blog
-        run: npm run build
+        run: pnpm run build
 
-      - name: 🪤 Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           force_orphan: true
-
