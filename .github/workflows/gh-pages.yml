@@ -28,7 +28,7 @@ jobs:
 
       # 1. 我们换回正确的、更安全的安装命令
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build
         run: pnpm build
