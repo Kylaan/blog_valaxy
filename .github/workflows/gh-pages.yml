@@ -1,43 +1,42 @@
-# .github/workflows/gh-pages.yml
-
-name: Deploy to GitHub Pages
+name: GitHub Pages
 
 on:
   push:
     branches:
+      # The branch where the project source code resides
+      # 项目源代码所在的分支
       - main
-  workflow_dispatch:
+      - master
+      - valaxy
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node-version: [lts/*]
+        os: [ubuntu-latest]
+      fail-fast: false
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          version: 8
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "pnpm"
+      - name: 📦 Install Dependencies
+        run: npm i
 
-      # 1. 我们换回正确的、更安全的安装命令
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+      - name: 🌌 Build Valaxy Blog
+        run: npm run build
 
-      - name: Build
-        run: pnpm build
-
-      - name: Deploy
+      - name: 🪤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          # 2. 这一行是解决 404 问题的关键！
-          # 它会自动在 gh-pages 分支创建 CNAME 文件
-          cname: kylaan.top
+          publish_dir: ./dist
+          force_orphan: true
