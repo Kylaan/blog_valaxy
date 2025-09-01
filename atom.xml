@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://kylaan.github.io/blog_valaxy/</id>
+    <title>Kylaan's Blog</title>
+    <updated>2025-09-01T03:55:19.925Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+        <name>Kylaan</name>
+        <email>i@valaxy.site</email>
+        <uri>https://valaxy.site</uri>
+    </author>
+    <link rel="alternate" href="https://kylaan.github.io/blog_valaxy/"/>
+    <link rel="self" href="https://kylaan.github.io/blog_valaxy/atom.xml"/>
+    <subtitle>Welcome to my site.</subtitle>
+    <logo>https://kylaan.github.io/blog_valaxy/avatar.png</logo>
+    <icon>https://kylaan.github.io/blog_valaxy/favicon.svg</icon>
+    <rights>CC BY-NC-SA 4.0 2025 © Kylaan</rights>
+    <entry>
+        <title type="html"><![CDATA[Markdown 扩展测试]]></title>
+        <id>https://kylaan.github.io/blog_valaxy/posts/markdown</id>
+        <link href="https://kylaan.github.io/blog_valaxy/posts/markdown"/>
+        <updated>2025-09-01T03:54:42.394Z</updated>
+        <content type="html"><![CDATA[<p>::: tip</p>
+<p>More info see <a href="https://valaxy.site/guide/markdown">Markdown Extensions</a>.</p>
+<p>:::</p>
+<h2>Emoji :t</h2>
+<br/><p>访问 <a href="https://kylaan.github.io/blog_valaxy/posts/markdown" target="_blank">https://kylaan.github.io/blog_valaxy/posts/markdown</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Kylaan</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2025-09-01T03:54:42.394Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网站折腾日记|01 Github Pages]]></title>
+        <id>https://kylaan.github.io/blog_valaxy/posts/blog0827-2</id>
+        <link href="https://kylaan.github.io/blog_valaxy/posts/blog0827-2"/>
+        <updated>2025-08-26T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h2>GitHub Pages</h2>
+<p>Github Pages是Github推出的静态网页托管服务</p>
+<p>使用 GitHub Pages，您可以托管个人博客、项目文档、您的简历、作品集或您想要展示的任何静态资</p>
+<br/><p>访问 <a href="https://kylaan.github.io/blog_valaxy/posts/blog0827-2" target="_blank">https://kylaan.github.io/blog_valaxy/posts/blog0827-2</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Kylaan</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2025-08-27T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网站折腾日记|02 第三方评论系统]]></title>
+        <id>https://kylaan.github.io/blog_valaxy/posts/blog0827</id>
+        <link href="https://kylaan.github.io/blog_valaxy/posts/blog0827"/>
+        <updated>2025-08-26T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h1>LeanCloud 设置 (数据库)</h1>
+<ol>
+<li>登录 <a href="https://console.leancloud.app/">LeanCloud 国际版</a> 并进入[<strong>控制台</strong>](<a href="https://co">https://co</a></li>
+</ol>
+<br/><p>访问 <a href="https://kylaan.github.io/blog_valaxy/posts/blog0827" target="_blank">https://kylaan.github.io/blog_valaxy/posts/blog0827</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Kylaan</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2025-08-27T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Markdown示例]]></title>
+        <id>https://kylaan.github.io/blog_valaxy/posts/new</id>
+        <link href="https://kylaan.github.io/blog_valaxy/posts/new"/>
+        <updated>2025-08-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p><meting-js
+ id="1496089152"
+ server="netease"
+ type="song"
+ theme="#eddf05"><br>
+</meting-js></p>
+<h1>Markdow</h1>
+<br/><p>访问 <a href="https://kylaan.github.io/blog_valaxy/posts/new" target="_blank">https://kylaan.github.io/blog_valaxy/posts/new</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Kylaan</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2025-08-22T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hausdorff测度与维数]]></title>
+        <id>https://kylaan.github.io/blog_valaxy/posts/RV-Hausdorff</id>
+        <link href="https://kylaan.github.io/blog_valaxy/posts/RV-Hausdorff"/>
+        <updated>2025-08-19T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p>[[toc]]</p>
+<h1>引言</h1>
+<h2>摘要</h2>
+<p>本报告旨在探讨Hausdorff测度这一量化集合“大小”的先进工具。鉴于传统Lebesgue测度在处理诸如Cantor集和Koch雪花曲线等具有复杂或“粗糙</p>
+<br/><p>访问 <a href="https://kylaan.github.io/blog_valaxy/posts/RV-Hausdorff" target="_blank">https://kylaan.github.io/blog_valaxy/posts/RV-Hausdorff</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Kylaan</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2025-08-19T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello, Valaxy!]]></title>
+        <id>https://kylaan.github.io/blog_valaxy/posts/hello-valaxy</id>
+        <link href="https://kylaan.github.io/blog_valaxy/posts/hello-valaxy"/>
+        <updated>2025-08-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p>Hello! It's my first post with Valaxy!</p>
+<h2>Valaxy</h2>
+<p>Next Generation Static Blog Framework.</p>
+<p>Write yo</p>
+<br/><p>访问 <a href="https://kylaan.github.io/blog_valaxy/posts/hello-valaxy" target="_blank">https://kylaan.github.io/blog_valaxy/posts/hello-valaxy</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Kylaan</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2025-08-18T00:00:00.000Z</published>
+    </entry>
+</feed>
