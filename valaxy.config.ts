@@ -19,7 +19,7 @@ export default defineValaxyConfig<UserThemeConfig>({
   theme: 'yun',
   //addon
   addons: [addonWaline({
-    serverURL: 'https://blog-nu-lilac-79.vercel.app/',
+    serverURL: 'https://comment.kylaan.top//',
     reaction: true,
     pageview: true, // 和浏览量统计
     }),
