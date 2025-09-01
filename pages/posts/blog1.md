@@ -22,5 +22,5 @@ Github官方给每位用户分配了一个域名：`username.github.io`
 
 当仓库以`username.github.io`命名时，发布页面即`main`分支下的`index.html`，访问[`https://username.github.io`](https://username.github.io)即可
 
-当仓库名称为其他时，即托管在其他仓库`eg_name:'respo'`时，选择`Settings > Pages > Deploy from a branch`,将仓库`index.html`所在分支选中即可，此时推荐使用自定义域名访问（配置CNAME/`Custom domain`），或访问[`https://username.github.io/respo`](https://username.github.io/respo)
+当仓库名称为其他时，即托管在其他仓库`eg_name:'respo'`时，选择`Settings > Pages > Deploy from a branch`,将仓库`index.html`所在分支选中即可，此时推荐使用[自定义域名访问](blog3.md)，或访问[`https://username.github.io/respo`](https://username.github.io/respo)
 
