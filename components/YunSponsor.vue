@@ -21,7 +21,7 @@ const isLiked = ref(false)
 const isLoading = ref(true)
 
 // --- 根据你提供的信息精确配置 ---
-const API_ENDPOINT = 'https://blog-nu-lilac-79.vercel.app/api/comment'
+const API_ENDPOINT = 'https://comment.kylaan.top/api/'
 
 // 获取点赞数（通过 GET_COUNTER 事件）
 async function fetchLikeCount() {
