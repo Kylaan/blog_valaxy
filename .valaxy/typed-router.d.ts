@@ -30,9 +30,7 @@ declare module 'vue-router/auto-routes' {
     '/links/': RouteRecordInfo<'/links/', '/links', Record<never, never>, Record<never, never>>,
     '/page/[page]': RouteRecordInfo<'/page/[page]', '/page/:page', { page: ParamValue<true> }, { page: ParamValue<false> }>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
-    '/posts/blog1': RouteRecordInfo<'/posts/blog1', '/posts/blog1', Record<never, never>, Record<never, never>>,
-    '/posts/blog2': RouteRecordInfo<'/posts/blog2', '/posts/blog2', Record<never, never>, Record<never, never>>,
-    '/posts/blog3': RouteRecordInfo<'/posts/blog3', '/posts/blog3', Record<never, never>, Record<never, never>>,
+    '/posts/blog0827': RouteRecordInfo<'/posts/blog0827', '/posts/blog0827', Record<never, never>, Record<never, never>>,
     '/posts/hello-valaxy': RouteRecordInfo<'/posts/hello-valaxy', '/posts/hello-valaxy', Record<never, never>, Record<never, never>>,
     '/posts/markdown': RouteRecordInfo<'/posts/markdown', '/posts/markdown', Record<never, never>, Record<never, never>>,
     '/posts/new': RouteRecordInfo<'/posts/new', '/posts/new', Record<never, never>, Record<never, never>>,
@@ -99,16 +97,8 @@ declare module 'vue-router/auto-routes' {
       routes: '/posts/'
       views: never
     }
-    'pages/posts/blog1.md': {
-      routes: '/posts/blog1'
-      views: never
-    }
-    'pages/posts/blog2.md': {
-      routes: '/posts/blog2'
-      views: never
-    }
-    'pages/posts/blog3.md': {
-      routes: '/posts/blog3'
+    'pages/posts/blog0827.md': {
+      routes: '/posts/blog0827'
       views: never
     }
     'pages/posts/hello-valaxy.md': {
