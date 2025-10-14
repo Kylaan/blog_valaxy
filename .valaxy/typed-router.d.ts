@@ -23,14 +23,24 @@ declare module 'vue-router/auto-routes' {
     '/404': RouteRecordInfo<'/404', '/404', Record<never, never>, Record<never, never>>,
     '/about/': RouteRecordInfo<'/about/', '/about', Record<never, never>, Record<never, never>>,
     '/about/site': RouteRecordInfo<'/about/site', '/about/site', Record<never, never>, Record<never, never>>,
+    '/albums/': RouteRecordInfo<'/albums/', '/albums', Record<never, never>, Record<never, never>>,
+    '/albums/daily': RouteRecordInfo<'/albums/daily', '/albums/daily', Record<never, never>, Record<never, never>>,
+    '/albums/miracle': RouteRecordInfo<'/albums/miracle', '/albums/miracle', Record<never, never>, Record<never, never>>,
+    '/albums/sunset': RouteRecordInfo<'/albums/sunset', '/albums/sunset', Record<never, never>, Record<never, never>>,
+    '/albums/young': RouteRecordInfo<'/albums/young', '/albums/young', Record<never, never>, Record<never, never>>,
     '/archives/': RouteRecordInfo<'/archives/', '/archives', Record<never, never>, Record<never, never>>,
     '/building/': RouteRecordInfo<'/building/', '/building', Record<never, never>, Record<never, never>>,
     '/categories/': RouteRecordInfo<'/categories/', '/categories', Record<never, never>, Record<never, never>>,
     '/collections/': RouteRecordInfo<'/collections/', '/collections', Record<never, never>, Record<never, never>>,
     '/links/': RouteRecordInfo<'/links/', '/links', Record<never, never>, Record<never, never>>,
+    '/ours/': RouteRecordInfo<'/ours/', '/ours', Record<never, never>, Record<never, never>>,
+    '/ours/2023-08-15-beach-day': RouteRecordInfo<'/ours/2023-08-15-beach-day', '/ours/2023-08-15-beach-day', Record<never, never>, Record<never, never>>,
+    '/ours/2024-02-14-valentines': RouteRecordInfo<'/ours/2024-02-14-valentines', '/ours/2024-02-14-valentines', Record<never, never>, Record<never, never>>,
+    '/ours/2025-06-01-museum': RouteRecordInfo<'/ours/2025-06-01-museum', '/ours/2025-06-01-museum', Record<never, never>, Record<never, never>>,
     '/page/[page]': RouteRecordInfo<'/page/[page]', '/page/:page', { page: ParamValue<true> }, { page: ParamValue<false> }>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
     '/posts/blog0827': RouteRecordInfo<'/posts/blog0827', '/posts/blog0827', Record<never, never>, Record<never, never>>,
+    '/posts/blog0827-2': RouteRecordInfo<'/posts/blog0827-2', '/posts/blog0827-2', Record<never, never>, Record<never, never>>,
     '/posts/hello-valaxy': RouteRecordInfo<'/posts/hello-valaxy', '/posts/hello-valaxy', Record<never, never>, Record<never, never>>,
     '/posts/markdown': RouteRecordInfo<'/posts/markdown', '/posts/markdown', Record<never, never>, Record<never, never>>,
     '/posts/new': RouteRecordInfo<'/posts/new', '/posts/new', Record<never, never>, Record<never, never>>,
@@ -69,6 +79,26 @@ declare module 'vue-router/auto-routes' {
       routes: '/about/site'
       views: never
     }
+    'pages/albums/index.md': {
+      routes: '/albums/'
+      views: never
+    }
+    'pages/albums/daily.md': {
+      routes: '/albums/daily'
+      views: never
+    }
+    'pages/albums/miracle.md': {
+      routes: '/albums/miracle'
+      views: never
+    }
+    'pages/albums/sunset.md': {
+      routes: '/albums/sunset'
+      views: never
+    }
+    'pages/albums/young.md': {
+      routes: '/albums/young'
+      views: never
+    }
     'pages/archives/index.md': {
       routes: '/archives/'
       views: never
@@ -89,6 +119,22 @@ declare module 'vue-router/auto-routes' {
       routes: '/links/'
       views: never
     }
+    'pages/ours/index.md': {
+      routes: '/ours/'
+      views: never
+    }
+    'pages/ours/2023-08-15-beach-day.md': {
+      routes: '/ours/2023-08-15-beach-day'
+      views: never
+    }
+    'pages/ours/2024-02-14-valentines.md': {
+      routes: '/ours/2024-02-14-valentines'
+      views: never
+    }
+    'pages/ours/2025-06-01-museum.md': {
+      routes: '/ours/2025-06-01-museum'
+      views: never
+    }
     'node_modules/.pnpm/valaxy-theme-yun@0.26.3_vue@3.5.20_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
       routes: '/page/[page]'
       views: never
@@ -99,6 +145,10 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/posts/blog0827.md': {
       routes: '/posts/blog0827'
+      views: never
+    }
+    'pages/posts/blog0827-2.md': {
+      routes: '/posts/blog0827-2'
       views: never
     }
     'pages/posts/hello-valaxy.md': {
