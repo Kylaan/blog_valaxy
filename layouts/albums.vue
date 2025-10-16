@@ -59,11 +59,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { usePageList, useFrontmatter } from 'valaxy'
 
 const frontmatter = useFrontmatter()
 const title = computed(() => frontmatter.value?.title || '')
+
+// 密码配置：直接在这里设置密码
+const ALBUM_PASSWORD = '0921' // 修改这里来更改密码
 
 // collect album pages under /albums
 const pageList = usePageList()
@@ -109,30 +112,38 @@ const monthYearLabel = computed(() => {
 })
 
 // password gate
-const pagePassword = computed(() => frontmatter.value?.gallery_password || frontmatter.value?.password || '')
-const passwordKey = computed(() => `albums-unlocked:${frontmatter.value?.permalink || '/albums'}`)
+const pagePassword = computed(() => ALBUM_PASSWORD) // 使用硬编码的密码
+const passwordKey = 'albums-unlocked' // 简化 key
 const passwordInput = ref('')
 const passwordError = ref('')
 const isUnlocked = ref(false)
 
 // check sessionStorage on mount
-if (typeof window !== 'undefined') {
-  try {
-    isUnlocked.value = !!sessionStorage.getItem(passwordKey.value)
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    try {
+      // 在挂载后检查是否已解锁
+      isUnlocked.value = !!sessionStorage.getItem(passwordKey)
+    }
+    catch (e) {
+      isUnlocked.value = false
+    }
   }
-  catch (e) {
-    isUnlocked.value = false
-  }
-}
+})
 
 function submitPassword() {
-  if (!pagePassword.value) {
-    // no password configured
-    isUnlocked.value = true
+  // 确保密码已配置且不为空
+  const configuredPassword = String(pagePassword.value || '').trim()
+  if (!configuredPassword) {
+    passwordError.value = '未配置密码或密码为空'
     return
   }
-  if (passwordInput.value === pagePassword.value) {
-    try { sessionStorage.setItem(passwordKey.value, '1') } catch (e) {}
+  
+  // 验证用户输入的密码
+  const userPassword = String(passwordInput.value || '').trim()
+  
+  if (userPassword === configuredPassword) {
+    try { sessionStorage.setItem(passwordKey, '1') } catch (e) {}
     isUnlocked.value = true
     passwordError.value = ''
   }

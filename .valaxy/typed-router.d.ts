@@ -33,10 +33,6 @@ declare module 'vue-router/auto-routes' {
     '/categories/': RouteRecordInfo<'/categories/', '/categories', Record<never, never>, Record<never, never>>,
     '/collections/': RouteRecordInfo<'/collections/', '/collections', Record<never, never>, Record<never, never>>,
     '/links/': RouteRecordInfo<'/links/', '/links', Record<never, never>, Record<never, never>>,
-    '/ours/': RouteRecordInfo<'/ours/', '/ours', Record<never, never>, Record<never, never>>,
-    '/ours/2023-08-15-beach-day': RouteRecordInfo<'/ours/2023-08-15-beach-day', '/ours/2023-08-15-beach-day', Record<never, never>, Record<never, never>>,
-    '/ours/2024-02-14-valentines': RouteRecordInfo<'/ours/2024-02-14-valentines', '/ours/2024-02-14-valentines', Record<never, never>, Record<never, never>>,
-    '/ours/2025-06-01-museum': RouteRecordInfo<'/ours/2025-06-01-museum', '/ours/2025-06-01-museum', Record<never, never>, Record<never, never>>,
     '/page/[page]': RouteRecordInfo<'/page/[page]', '/page/:page', { page: ParamValue<true> }, { page: ParamValue<false> }>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
     '/posts/blog0827': RouteRecordInfo<'/posts/blog0827', '/posts/blog0827', Record<never, never>, Record<never, never>>,
@@ -117,22 +113,6 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/links/index.md': {
       routes: '/links/'
-      views: never
-    }
-    'pages/ours/index.md': {
-      routes: '/ours/'
-      views: never
-    }
-    'pages/ours/2023-08-15-beach-day.md': {
-      routes: '/ours/2023-08-15-beach-day'
-      views: never
-    }
-    'pages/ours/2024-02-14-valentines.md': {
-      routes: '/ours/2024-02-14-valentines'
-      views: never
-    }
-    'pages/ours/2025-06-01-museum.md': {
-      routes: '/ours/2025-06-01-museum'
       views: never
     }
     'node_modules/.pnpm/valaxy-theme-yun@0.26.3_vue@3.5.20_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
