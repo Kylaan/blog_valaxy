@@ -24,12 +24,50 @@ const ALBUMS_DIR = path.join(BLOG_ROOT, 'public', 'albums');
 const PAGES_DIR = path.join(BLOG_ROOT, 'pages', 'albums');
 const DIST_DIR = path.resolve(__dirname, '../dist');
 
-// 统计信息
-let uploadStats = {
-  totalUploads: 0,
-  lastUploadTime: null,
-  lastUploadAlbum: null
+// 构建状态管理
+let buildStatus = {
+  building: false,
+  lastBuildTime: null,
+  lastBuildSuccess: null,
+  lastBuildError: null
 };
+
+// 全量构建函数
+function triggerFullBuild() {
+  if (buildStatus.building) {
+    console.log('⚠️ 构建已在进行中，跳过本次触发');
+    return;
+  }
+
+  buildStatus.building = true;
+  buildStatus.lastBuildError = null;
+  console.log('🔨 开始全量构建网站...');
+
+  // 自动检测操作系统和环境
+  const isWindows = process.platform === 'win32';
+  const buildCommand = isWindows
+    ? `cd "${BLOG_ROOT}" && pnpm build:ssg`  // Windows 本地
+    : `cd ${BLOG_ROOT} && NODE_OPTIONS="--max-old-space-size=2048" pnpm build:ssg`;  // Linux 服务器
+  
+  console.log(`执行命令: ${buildCommand}`);
+  
+  exec(buildCommand, { maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+    buildStatus.building = false;
+    buildStatus.lastBuildTime = new Date().toISOString();
+
+    if (error) {
+      console.error('❌ 构建失败:', error.message);
+      console.error('stderr:', stderr);
+      buildStatus.lastBuildSuccess = false;
+      buildStatus.lastBuildError = error.message;
+      return;
+    }
+
+    console.log('✅ 构建成功!');
+    console.log('构建输出:', stdout.slice(-500));
+    buildStatus.lastBuildSuccess = true;
+  });
+}
 
 // 创建必要的目录
 
@@ -99,12 +137,28 @@ app.post('/api/auth', (req, res) => {
   }
 });
 
-// 2. 获取上传统计
-app.get('/api/stats', authenticate, (req, res) => {
-  res.json(uploadStats);
+// 2. 获取构建状态
+app.get('/api/build-status', authenticate, (req, res) => {
+  res.json(buildStatus);
 });
 
-// 3. 获取相册列表
+// 3. 手动触发构建
+app.post('/api/build', authenticate, (req, res) => {
+  if (buildStatus.building) {
+    return res.json({
+      success: false,
+      message: '构建已在进行中'
+    });
+  }
+
+  triggerFullBuild();
+  res.json({
+    success: true,
+    message: '全量构建已触发'
+  });
+});
+
+// 4. 获取相册列表
 app.get('/api/albums', authenticate, (req, res) => {
   try {
     const albums = [];
@@ -188,18 +242,15 @@ app.post('/api/albums', authenticate, upload.array('photos', 50), (req, res) => 
     
     console.log('✅ 相册创建成功:', filename);
     
-    // 更新统计信息
-    uploadStats.totalUploads++;
-    uploadStats.lastUploadTime = new Date().toISOString();
-    uploadStats.lastUploadAlbum = filename;
+    // 触发全量构建
+    triggerFullBuild();
     
     res.json({
       success: true,
-      message: '相册创建成功！请提交代码到 Git 触发云效自动构建部署。',
+      message: '相册创建成功，正在构建网站...',
       filename,
       photosCount: files.length,
-      url: `/albums/${filename.replace('.md', '')}`,
-      tip: '💡 下一步：git add . && git commit -m "新增相册" && git push'
+      url: `/albums/${filename.replace('.md', '')}`
     });
     
   } catch (error) {
