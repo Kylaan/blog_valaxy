@@ -1,7 +1,7 @@
 import type { UserThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
 import { addonWaline } from 'valaxy-addon-waline'
-import { addonLightGallery } from 'valaxy-addon-lightgallery'
+// import { addonLightGallery } from 'valaxy-addon-lightgallery'
 
 //模板： D:\Downloads\\index.d.ts
 // https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/types/index.d.ts
@@ -38,8 +38,8 @@ export default defineValaxyConfig<UserThemeConfig>({
     reaction: true,
     pageview: true, // 和浏览量统计
     }),
-    // enable lightgallery addon so YunGallery loads and gallery pages can show images
-    addonLightGallery(),
+    // lightgallery 暂时禁用,因为文件路径问题
+    // addonLightGallery(),
   ],
 
 
