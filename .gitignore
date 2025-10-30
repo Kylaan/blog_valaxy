@@ -17,6 +17,10 @@ node_modules
 .idea/
 *.log
 
+# Environment variables
+.env
+.env.local
+
 components.d.ts
 
 # valaxy rss
