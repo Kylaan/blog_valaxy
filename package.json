@@ -10,7 +10,8 @@
     "dev": "valaxy",
     "rss": "valaxy rss",
     "serve": "vite preview",
-    "deploy": "pnpm build && gh-pages -d dist"
+    "deploy": "pnpm build && gh-pages -d dist",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.64",
