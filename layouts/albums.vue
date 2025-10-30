@@ -337,16 +337,22 @@ const canSubmit = computed(() => {
 })
 
 function openAdminModal() {
-  showAdminModal.value = true
-  // 重置表单
-  albumForm.value = {
-    date: new Date().toISOString().split('T')[0],
-    title: '',
-    description: '',
-    password: ''
+  console.log('🚀 打开相册管理模态框')
+  try {
+    showAdminModal.value = true
+    // 重置表单
+    albumForm.value = {
+      date: new Date().toISOString().split('T')[0],
+      title: '',
+      description: '',
+      password: ''
+    }
+    selectedFiles.value = []
+    uploadStatus.value = null
+    console.log('✅ 模态框已打开')
+  } catch (error) {
+    console.error('❌ 打开模态框失败:', error)
   }
-  selectedFiles.value = []
-  uploadStatus.value = null
 }
 
 function closeAdminModal() {
