@@ -459,8 +459,12 @@ async function submitAlbum() {
       )
       
       if (!response.ok) {
-        throw new Error(`上传图片失败: ${response.statusText}`)
+        const errorData = await response.json().catch(() => ({}))
+        console.error('❌ 图片上传失败:', path, errorData)
+        throw new Error(`上传图片失败: ${response.statusText} - ${errorData.message || ''}`)
       }
+      
+      console.log('✅ 图片上传成功:', filename)
       
       photos.push({
         caption: fileData.caption,
@@ -487,6 +491,47 @@ async function submitAlbum() {
     uploadStatus.value = { type: 'info', message: '正在创建相册页面...' }
     
     const mdPath = `pages/albums/${date}.md`
+    
+    // 检查文件是否已存在
+    let fileSha = ''
+    try {
+      const checkResponse = await fetch(
+        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${mdPath}`,
+        {
+          headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+          }
+        }
+      )
+      if (checkResponse.ok) {
+        const fileData = await checkResponse.json()
+        fileSha = fileData.sha
+        console.log('⚠️ 文件已存在,将更新:', mdPath)
+      }
+    } catch (e) {
+      console.log('✅ 文件不存在,将创建:', mdPath)
+    }
+    
+    // Base64 编码 (处理中文)
+    const base64Content = btoa(unescape(encodeURIComponent(markdown)))
+    
+    console.log('📝 Markdown 内容:', {
+      length: markdown.length,
+      base64Length: base64Content.length,
+      preview: markdown.substring(0, 100)
+    })
+    
+    const mdPayload: any = {
+      message: `feat: 添加相册 ${albumForm.value.title} (${date})`,
+      content: base64Content,
+      branch: 'main'
+    }
+    
+    // 如果文件已存在,需要提供 sha
+    if (fileSha) {
+      mdPayload.sha = fileSha
+    }
+    
     const mdResponse = await fetch(
       `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${mdPath}`,
       {
@@ -495,17 +540,17 @@ async function submitAlbum() {
           'Authorization': `token ${GITHUB_TOKEN}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          message: `feat: 添加相册 ${albumForm.value.title} (${date})`,
-          content: btoa(unescape(encodeURIComponent(markdown))), // UTF-8 to base64
-          branch: 'main'
-        })
+        body: JSON.stringify(mdPayload)
       }
     )
     
     if (!mdResponse.ok) {
-      throw new Error(`创建 Markdown 失败: ${mdResponse.statusText}`)
+      const errorData = await mdResponse.json().catch(() => ({}))
+      console.error('❌ Markdown 上传失败:', errorData)
+      throw new Error(`创建 Markdown 失败: ${mdResponse.statusText} - ${errorData.message || ''}`)
     }
+    
+    console.log('✅ Markdown 创建成功!')
     
     // 5. 成功
     uploadStatus.value = { 
