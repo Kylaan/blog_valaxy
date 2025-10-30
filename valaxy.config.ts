@@ -1,7 +1,7 @@
 import type { UserThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
 import { addonWaline } from 'valaxy-addon-waline'
-// import { addonLightGallery } from 'valaxy-addon-lightgallery'
+import { addonLightGallery } from 'valaxy-addon-lightgallery'
 
 //模板： D:\Downloads\\index.d.ts
 // https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/types/index.d.ts
@@ -12,34 +12,20 @@ const safelist = [
 ]
 
 /**
- * GitHub 配置 - 用于相册管理
- * Token 从浏览器 localStorage 读取,首次使用需要手动设置一次
- */
-export const GITHUB_CONFIG = {
-  owner: 'Kylaan',
-  repo: 'blog_valaxy'
-}
-
-/**
  * User Config
  */
 export default defineValaxyConfig<UserThemeConfig>({
   // site config see site.config.ts
 
   theme: 'yun',
-  
-  // Vite 配置
-  vite: {
-    envPrefix: ['VITE_'], // 确保 VITE_ 前缀的环境变量被加载
-  },
   //addon
   addons: [addonWaline({
     serverURL: 'https://comment.kylaan.top//',
     reaction: true,
     pageview: true, // 和浏览量统计
     }),
-    // lightgallery 暂时禁用,因为文件路径问题
-    // addonLightGallery(),
+    // enable lightgallery addon so YunGallery loads and gallery pages can show images
+    addonLightGallery(),
   ],
 
 
