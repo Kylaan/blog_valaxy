@@ -1,0 +1,86 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Kylaan's Blog",
+    "home_page_url": "https://Kylaan.top/",
+    "feed_url": "https://Kylaan.top/feed.json",
+    "description": "Welcome to my site.",
+    "icon": "https://Kylaan.top/avatar.png",
+    "author": {
+        "name": "Kylaan",
+        "url": "https://valaxy.site"
+    },
+    "items": [
+        {
+            "id": "https://Kylaan.top/posts/markdown",
+            "content_html": "<p>::: tip</p>\n<p>More info see <a href=\"https://valaxy.site/guide/markdown\">Markdown Extensions</a>.</p>\n<p>:::</p>\n<h2>Emoji :t</h2>\n<br/><p>访问 <a href=\"https://Kylaan.top/posts/markdown\" target=\"_blank\">https://Kylaan.top/posts/markdown</a> 阅读全文。</p>",
+            "url": "https://Kylaan.top/posts/markdown",
+            "title": "Markdown 扩展测试",
+            "date_modified": "2025-10-30T11:12:12.178Z",
+            "date_published": "2025-10-30T11:12:12.178Z",
+            "author": {
+                "name": "Kylaan",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://Kylaan.top/posts/blog0827-2",
+            "content_html": "<h2>GitHub Pages</h2>\n<p>Github Pages是Github推出的静态网页托管服务</p>\n<p>使用 GitHub Pages，您可以托管个人博客、项目文档、您的简历、作品集或您想要展示的任何静态资</p>\n<br/><p>访问 <a href=\"https://Kylaan.top/posts/blog0827-2\" target=\"_blank\">https://Kylaan.top/posts/blog0827-2</a> 阅读全文。</p>",
+            "url": "https://Kylaan.top/posts/blog0827-2",
+            "title": "网站折腾日记|01 Github Pages",
+            "date_modified": "2025-08-26T00:00:00.000Z",
+            "date_published": "2025-08-27T00:00:00.000Z",
+            "author": {
+                "name": "Kylaan",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://Kylaan.top/posts/blog0827",
+            "content_html": "<h1>LeanCloud 设置 (数据库)</h1>\n<ol>\n<li>登录 <a href=\"https://console.leancloud.app/\">LeanCloud 国际版</a> 并进入[<strong>控制台</strong>](<a href=\"https://co\">https://co</a></li>\n</ol>\n<br/><p>访问 <a href=\"https://Kylaan.top/posts/blog0827\" target=\"_blank\">https://Kylaan.top/posts/blog0827</a> 阅读全文。</p>",
+            "url": "https://Kylaan.top/posts/blog0827",
+            "title": "网站折腾日记|02 第三方评论系统",
+            "date_modified": "2025-08-26T00:00:00.000Z",
+            "date_published": "2025-08-27T00:00:00.000Z",
+            "author": {
+                "name": "Kylaan",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://Kylaan.top/posts/new",
+            "content_html": "<p><meting-js\n id=\"1496089152\"\n server=\"netease\"\n type=\"song\"\n theme=\"#eddf05\"><br>\n</meting-js></p>\n<h1>Markdow</h1>\n<br/><p>访问 <a href=\"https://Kylaan.top/posts/new\" target=\"_blank\">https://Kylaan.top/posts/new</a> 阅读全文。</p>",
+            "url": "https://Kylaan.top/posts/new",
+            "title": "Markdown示例",
+            "date_modified": "2025-08-18T00:00:00.000Z",
+            "date_published": "2025-08-22T00:00:00.000Z",
+            "author": {
+                "name": "Kylaan",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://Kylaan.top/posts/RV-Hausdorff",
+            "content_html": "<p>[[toc]]</p>\n<h1>引言</h1>\n<h2>摘要</h2>\n<p>本报告旨在探讨Hausdorff测度这一量化集合“大小”的先进工具。鉴于传统Lebesgue测度在处理诸如Cantor集和Koch雪花曲线等具有复杂或“粗糙</p>\n<br/><p>访问 <a href=\"https://Kylaan.top/posts/RV-Hausdorff\" target=\"_blank\">https://Kylaan.top/posts/RV-Hausdorff</a> 阅读全文。</p>",
+            "url": "https://Kylaan.top/posts/RV-Hausdorff",
+            "title": "Hausdorff测度与维数",
+            "date_modified": "2025-08-19T00:00:00.000Z",
+            "date_published": "2025-08-19T00:00:00.000Z",
+            "author": {
+                "name": "Kylaan",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://Kylaan.top/posts/hello-valaxy",
+            "content_html": "<p>Hello! It's my first post with Valaxy!</p>\n<h2>Valaxy</h2>\n<p>Next Generation Static Blog Framework.</p>\n<p>Write yo</p>\n<br/><p>访问 <a href=\"https://Kylaan.top/posts/hello-valaxy\" target=\"_blank\">https://Kylaan.top/posts/hello-valaxy</a> 阅读全文。</p>",
+            "url": "https://Kylaan.top/posts/hello-valaxy",
+            "title": "Hello, Valaxy!",
+            "date_modified": "2025-08-18T00:00:00.000Z",
+            "date_published": "2025-08-18T00:00:00.000Z",
+            "author": {
+                "name": "Kylaan",
+                "url": "https://valaxy.site"
+            }
+        }
+    ]
+}

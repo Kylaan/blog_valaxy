@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Kylaan's Blog</title>
+        <link>https://Kylaan.top/</link>
+        <description>Welcome to my site.</description>
+        <lastBuildDate>Thu, 30 Oct 2025 11:12:48 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <image>
+            <title>Kylaan's Blog</title>
+            <url>https://Kylaan.top/avatar.png</url>
+            <link>https://Kylaan.top/</link>
+        </image>
+        <copyright>CC BY-NC-SA 4.0 2025 © Kylaan</copyright>
+        <atom:link href="https://Kylaan.top/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Markdown 扩展测试]]></title>
+            <link>https://Kylaan.top/posts/markdown</link>
+            <guid isPermaLink="false">https://Kylaan.top/posts/markdown</guid>
+            <pubDate>Thu, 30 Oct 2025 11:12:12 GMT</pubDate>
+            <content:encoded><![CDATA[<p>::: tip</p>
+<p>More info see <a href="https://valaxy.site/guide/markdown">Markdown Extensions</a>.</p>
+<p>:::</p>
+<h2>Emoji :t</h2>
+<br/><p>访问 <a href="https://Kylaan.top/posts/markdown" target="_blank">https://Kylaan.top/posts/markdown</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (Kylaan)</author>
+        </item>
+        <item>
+            <title><![CDATA[网站折腾日记|01 Github Pages]]></title>
+            <link>https://Kylaan.top/posts/blog0827-2</link>
+            <guid isPermaLink="false">https://Kylaan.top/posts/blog0827-2</guid>
+            <pubDate>Wed, 27 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>GitHub Pages</h2>
+<p>Github Pages是Github推出的静态网页托管服务</p>
+<p>使用 GitHub Pages，您可以托管个人博客、项目文档、您的简历、作品集或您想要展示的任何静态资</p>
+<br/><p>访问 <a href="https://Kylaan.top/posts/blog0827-2" target="_blank">https://Kylaan.top/posts/blog0827-2</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (Kylaan)</author>
+        </item>
+        <item>
+            <title><![CDATA[网站折腾日记|02 第三方评论系统]]></title>
+            <link>https://Kylaan.top/posts/blog0827</link>
+            <guid isPermaLink="false">https://Kylaan.top/posts/blog0827</guid>
+            <pubDate>Wed, 27 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>LeanCloud 设置 (数据库)</h1>
+<ol>
+<li>登录 <a href="https://console.leancloud.app/">LeanCloud 国际版</a> 并进入[<strong>控制台</strong>](<a href="https://co">https://co</a></li>
+</ol>
+<br/><p>访问 <a href="https://Kylaan.top/posts/blog0827" target="_blank">https://Kylaan.top/posts/blog0827</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (Kylaan)</author>
+        </item>
+        <item>
+            <title><![CDATA[Markdown示例]]></title>
+            <link>https://Kylaan.top/posts/new</link>
+            <guid isPermaLink="false">https://Kylaan.top/posts/new</guid>
+            <pubDate>Fri, 22 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p><meting-js
+ id="1496089152"
+ server="netease"
+ type="song"
+ theme="#eddf05"><br>
+</meting-js></p>
+<h1>Markdow</h1>
+<br/><p>访问 <a href="https://Kylaan.top/posts/new" target="_blank">https://Kylaan.top/posts/new</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (Kylaan)</author>
+        </item>
+        <item>
+            <title><![CDATA[Hausdorff测度与维数]]></title>
+            <link>https://Kylaan.top/posts/RV-Hausdorff</link>
+            <guid isPermaLink="false">https://Kylaan.top/posts/RV-Hausdorff</guid>
+            <pubDate>Tue, 19 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p>[[toc]]</p>
+<h1>引言</h1>
+<h2>摘要</h2>
+<p>本报告旨在探讨Hausdorff测度这一量化集合“大小”的先进工具。鉴于传统Lebesgue测度在处理诸如Cantor集和Koch雪花曲线等具有复杂或“粗糙</p>
+<br/><p>访问 <a href="https://Kylaan.top/posts/RV-Hausdorff" target="_blank">https://Kylaan.top/posts/RV-Hausdorff</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (Kylaan)</author>
+        </item>
+        <item>
+            <title><![CDATA[Hello, Valaxy!]]></title>
+            <link>https://Kylaan.top/posts/hello-valaxy</link>
+            <guid isPermaLink="false">https://Kylaan.top/posts/hello-valaxy</guid>
+            <pubDate>Mon, 18 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p>Hello! It's my first post with Valaxy!</p>
+<h2>Valaxy</h2>
+<p>Next Generation Static Blog Framework.</p>
+<p>Write yo</p>
+<br/><p>访问 <a href="https://Kylaan.top/posts/hello-valaxy" target="_blank">https://Kylaan.top/posts/hello-valaxy</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (Kylaan)</author>
+        </item>
+    </channel>
+</rss>
