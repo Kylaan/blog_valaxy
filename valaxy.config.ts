@@ -12,6 +12,15 @@ const safelist = [
 ]
 
 /**
+ * GitHub 配置 - 用于相册管理
+ * Token 从浏览器 localStorage 读取,首次使用需要手动设置一次
+ */
+export const GITHUB_CONFIG = {
+  owner: 'Kylaan',
+  repo: 'blog_valaxy'
+}
+
+/**
  * User Config
  */
 export default defineValaxyConfig<UserThemeConfig>({
