@@ -18,6 +18,11 @@ export default defineValaxyConfig<UserThemeConfig>({
   // site config see site.config.ts
 
   theme: 'yun',
+  
+  // Vite 配置
+  vite: {
+    envPrefix: ['VITE_'], // 确保 VITE_ 前缀的环境变量被加载
+  },
   //addon
   addons: [addonWaline({
     serverURL: 'https://comment.kylaan.top//',
