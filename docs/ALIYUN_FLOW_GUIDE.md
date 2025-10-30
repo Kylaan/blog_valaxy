@@ -51,7 +51,8 @@ echo "=== 3. 构建网站 ==="
 pnpm build:ssg
 
 echo "=== 4. 打包产物 ==="
-tar -czf dist.tar.gz dist
+# 打包 dist 目录和部署脚本 appctl.sh
+tar -czf dist.tar.gz dist app-configs/
 
 echo "✅ 构建完成！"
 ```
@@ -59,6 +60,12 @@ echo "✅ 构建完成！"
 **环境配置**：
 - Node 版本：`20`
 - 构建规格：`2C4G`（免费额度）
+
+**⚠️ 重要**：在构建物上传步骤中，需要添加打包路径：
+- 打包路径 1：`dist/`
+- 打包路径 2：`app-configs/bin/appctl.sh`
+
+这样可以确保部署脚本也被打包进去。
 
 ### 2.3 配置产物
 1. 点击【产物设置】
@@ -95,30 +102,34 @@ set -e
 echo "=== 1. 下载构建产物 ==="
 # 云效会自动下载产物到 /home/admin/app/dist.tar.gz
 
-echo "=== 2. 备份旧版本 ==="
+echo "=== 2. 进入应用目录 ==="
 cd /www/wwwroot/blog_valaxy
-if [ -d "dist" ]; then
-  rm -rf dist.backup
-  mv dist dist.backup
-  echo "已备份旧版本到 dist.backup"
-fi
 
-echo "=== 3. 解压新版本 ==="
-tar -xzf /home/admin/app/dist.tar.gz -C /www/wwwroot/blog_valaxy/
+echo "=== 3. 解压构建产物 ==="
+# 解压包含 dist 和 app-configs 目录
+tar -xzf /home/admin/app/dist.tar.gz
 
 echo "=== 4. 设置权限 ==="
-chown -R www:www dist
+chown -R www:www dist app-configs
 chmod -R 755 dist
+chmod +x app-configs/bin/appctl.sh
 
-echo "=== 5. 重新加载 Nginx ==="
-nginx -t && nginx -s reload
+echo "=== 5. 使用 appctl.sh 重启应用 ==="
+# appctl.sh 会自动备份、测试配置、重新加载 Nginx
+./app-configs/bin/appctl.sh restart
 
 echo "=== 6. 清理临时文件 ==="
 rm -f /home/admin/app/dist.tar.gz
 
 echo "✅ 部署完成！"
 echo "🌐 访问: https://kylaan.top"
+echo "📊 查看状态: ./app-configs/bin/appctl.sh status"
 ```
+
+**关于 appctl.sh**：
+- 这是应用管理脚本，提供启动、停止、重启、回滚等功能
+- 位置：`app-configs/bin/appctl.sh`
+- 详细说明：参考 [app-configs/README.md](../app-configs/README.md)
 
 ---
 

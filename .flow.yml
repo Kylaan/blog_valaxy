@@ -31,7 +31,8 @@ stages:
       
       - name: 打包产物
         steps:
-          - run: tar -czf dist.tar.gz dist
+          # 打包 dist 目录和部署脚本
+          - run: tar -czf dist.tar.gz dist app-configs/
 
   - name: 部署阶段
     jobs:
@@ -56,20 +57,16 @@ stages:
               password: ${{ secrets.SERVER_PASSWORD }}
               script: |
                 cd /www/wwwroot/blog_valaxy
-                # 备份旧版本
-                if [ -d "dist" ]; then
-                  rm -rf dist.backup
-                  mv dist dist.backup
-                fi
-                # 解压新版本
+                # 解压构建产物（包含 dist 和 app-configs）
                 tar -xzf /tmp/dist.tar.gz
                 # 设置权限
-                chown -R www:www dist
+                chown -R www:www dist app-configs
                 chmod -R 755 dist
+                chmod +x app-configs/bin/appctl.sh
+                # 使用 appctl.sh 脚本重启应用
+                ./app-configs/bin/appctl.sh restart
                 # 清理临时文件
                 rm /tmp/dist.tar.gz
-                # 重新加载 Nginx
-                nginx -s reload
                 echo "✅ 部署完成！"
 
 # 环境变量（从云效密钥管理中读取）
