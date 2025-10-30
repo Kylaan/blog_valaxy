@@ -16,10 +16,15 @@
           <button class="yun-btn" @click="goToday">今天</button>
         </div>
   <div class="text-lg font-medium whitespace-nowrap">{{ monthYearLabel }}</div>
-        <button class="yun-btn" @click="openAdminModal" v-if="isUnlocked">
-          <i class="i-ri-add-line" />
-          创建相册
-        </button>
+        <div class="flex items-center gap-2" v-if="isUnlocked">
+          <button class="yun-icon-btn" @click="manageToken" title="配置 GitHub Token">
+            <i class="i-ri-key-line" />
+          </button>
+          <button class="yun-btn" @click="openAdminModal">
+            <i class="i-ri-add-line" />
+            创建相册
+          </button>
+        </div>
       </div>
 
       <div v-if="isUnlocked">
@@ -146,7 +151,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import { usePageList, useFrontmatter } from 'valaxy'
-import { GITHUB_CONFIG } from '../valaxy.config'
 
 const frontmatter = useFrontmatter()
 const title = computed(() => frontmatter.value?.title || '')
@@ -388,38 +392,37 @@ async function submitAlbum() {
   uploadStatus.value = { type: 'info', message: '正在上传...' }
   
   try {
-    // 从 localStorage 获取 GitHub Token (首次需手动设置)
-    let GITHUB_TOKEN = ''
-    if (typeof window !== 'undefined') {
+    // 获取 GitHub Token
+    // 方式1: 从环境变量读取
+    let GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string || ''
+    
+    // 方式2: 临时从 localStorage 读取 (备用方案)
+    if (!GITHUB_TOKEN && typeof window !== 'undefined') {
       GITHUB_TOKEN = localStorage.getItem('GITHUB_TOKEN') || ''
     }
     
-    const GITHUB_OWNER = GITHUB_CONFIG.owner
-    const GITHUB_REPO = GITHUB_CONFIG.repo
+    const GITHUB_OWNER = 'Kylaan'
+    const GITHUB_REPO = 'blog_valaxy'
     
-    // 如果没有 Token,提示用户设置 (只需设置一次)
-    if (!GITHUB_TOKEN) {
-      const userToken = prompt(
-        '首次使用需要配置 GitHub Token\n\n' +
-        '请输入你的 Token (ghp_...):\n\n' +
-        '⚠️ Token 将保存在浏览器本地,下次无需重复输入'
-      )
-      if (userToken && userToken.trim()) {
-        GITHUB_TOKEN = userToken.trim()
-        localStorage.setItem('GITHUB_TOKEN', GITHUB_TOKEN)
-        console.log('✅ Token 已保存到本地')
-      } else {
-        throw new Error('需要 GitHub Token 才能上传相册')
-      }
-    }
-    
-    console.log('🔍 GitHub 配置:', {
-      owner: GITHUB_OWNER,
-      repo: GITHUB_REPO,
+    console.log('🔍 Token 检查:', {
+      envExists: !!import.meta.env.VITE_GITHUB_TOKEN,
       tokenExists: !!GITHUB_TOKEN,
       tokenLength: GITHUB_TOKEN?.length || 0,
-      tokenPrefix: GITHUB_TOKEN?.substring(0, 4) || 'none'
+      tokenPrefix: GITHUB_TOKEN?.substring(0, 4) || 'none',
+      allEnvKeys: Object.keys(import.meta.env || {})
     })
+    
+    if (!GITHUB_TOKEN) {
+      // 提示用户手动输入 token (临时方案)
+      const userToken = prompt('未检测到 GitHub Token\n\n请输入你的 GitHub Token (ghp_...):\n\n(或者确保 .env 文件中配置了 VITE_GITHUB_TOKEN 并重启服务器)')
+      if (userToken && userToken.trim()) {
+        GITHUB_TOKEN = userToken.trim()
+        // 保存到 localStorage 以便下次使用
+        localStorage.setItem('GITHUB_TOKEN', GITHUB_TOKEN)
+      } else {
+        throw new Error('未配置 GitHub Token。\n\n请检查:\n1. .env 文件中的 VITE_GITHUB_TOKEN\n2. 已重启开发服务器 (pnpm dev)\n3. 或在弹窗中手动输入 Token')
+      }
+    }
     
     // 1. 准备文件
     const date = albumForm.value.date
@@ -439,6 +442,8 @@ async function submitAlbum() {
       const content = base64.split(',')[1] // 移除 data:image/...;base64, 前缀
       
       // 使用 GitHub API 上传
+      console.log(`📤 上传图片 ${i + 1}/${selectedFiles.value.length}:`, path)
+      
       const response = await fetch(
         `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`,
         {
@@ -457,11 +462,16 @@ async function submitAlbum() {
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        console.error('❌ 图片上传失败:', path, errorData)
-        throw new Error(`上传图片失败: ${response.statusText} - ${errorData.message || ''}`)
+        console.error('❌ 图片上传失败:', {
+          file: filename,
+          status: response.status,
+          statusText: response.statusText,
+          errorData
+        })
+        throw new Error(`上传图片失败 (${response.status}): ${errorData.message || response.statusText}`)
       }
       
-      console.log('✅ 图片上传成功:', filename)
+      console.log(`✅ 图片上传成功: ${filename}`)
       
       photos.push({
         caption: fileData.caption,
@@ -489,44 +499,43 @@ async function submitAlbum() {
     
     const mdPath = `pages/albums/${date}.md`
     
+    console.log('📝 准备上传 Markdown:', {
+      path: mdPath,
+      contentLength: markdown.length,
+      title: albumForm.value.title
+    })
+    
     // 检查文件是否已存在
-    let fileSha = ''
+    let existingSha: string | null = null
     try {
       const checkResponse = await fetch(
         `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${mdPath}`,
         {
           headers: {
-            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Authorization': `token ${GITHUB_TOKEN}`
           }
         }
       )
       if (checkResponse.ok) {
-        const fileData = await checkResponse.json()
-        fileSha = fileData.sha
+        const existingFile = await checkResponse.json()
+        existingSha = existingFile.sha
         console.log('⚠️ 文件已存在,将更新:', mdPath)
       }
     } catch (e) {
-      console.log('✅ 文件不存在,将创建:', mdPath)
+      // 文件不存在,这是正常的
     }
     
-    // Base64 编码 (处理中文)
-    const base64Content = btoa(unescape(encodeURIComponent(markdown)))
-    
-    console.log('📝 Markdown 内容:', {
-      length: markdown.length,
-      base64Length: base64Content.length,
-      preview: markdown.substring(0, 100)
-    })
-    
     const mdPayload: any = {
-      message: `feat: 添加相册 ${albumForm.value.title} (${date})`,
-      content: base64Content,
+      message: existingSha 
+        ? `feat: 更新相册 ${albumForm.value.title} (${date})`
+        : `feat: 添加相册 ${albumForm.value.title} (${date})`,
+      content: btoa(unescape(encodeURIComponent(markdown))), // UTF-8 to base64
       branch: 'main'
     }
     
     // 如果文件已存在,需要提供 sha
-    if (fileSha) {
-      mdPayload.sha = fileSha
+    if (existingSha) {
+      mdPayload.sha = existingSha
     }
     
     const mdResponse = await fetch(
@@ -543,11 +552,15 @@ async function submitAlbum() {
     
     if (!mdResponse.ok) {
       const errorData = await mdResponse.json().catch(() => ({}))
-      console.error('❌ Markdown 上传失败:', errorData)
-      throw new Error(`创建 Markdown 失败: ${mdResponse.statusText} - ${errorData.message || ''}`)
+      console.error('❌ Markdown 上传失败:', {
+        status: mdResponse.status,
+        statusText: mdResponse.statusText,
+        errorData
+      })
+      throw new Error(`创建 Markdown 失败 (${mdResponse.status}): ${errorData.message || mdResponse.statusText}`)
     }
     
-    console.log('✅ Markdown 创建成功!')
+    console.log('✅ Markdown 创建成功')
     
     // 5. 成功
     uploadStatus.value = { 
@@ -597,6 +610,27 @@ ${photosYaml}
 
 ${description || ''}
 `
+}
+
+function manageToken() {
+  if (typeof window === 'undefined') return
+  
+  const currentToken = localStorage.getItem('GITHUB_TOKEN') || ''
+  const action = currentToken 
+    ? `当前 Token: ${currentToken.substring(0, 10)}...\n\n选择操作:\n- 输入新 Token 替换\n- 点击取消保持不变\n- 输入空值清除`
+    : '请输入你的 GitHub Token (ghp_...)'
+  
+  const newToken = prompt(action, currentToken)
+  
+  if (newToken !== null) {
+    if (newToken.trim()) {
+      localStorage.setItem('GITHUB_TOKEN', newToken.trim())
+      alert('✅ Token 已保存! 你现在可以创建相册了')
+    } else {
+      localStorage.removeItem('GITHUB_TOKEN')
+      alert('Token 已清除')
+    }
+  }
 }
 </script>
 
