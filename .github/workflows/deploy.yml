@@ -19,7 +19,7 @@ jobs:
       - name: 📦 Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9
       
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
@@ -29,10 +29,10 @@ jobs:
           cache: 'pnpm'
       
       - name: 📦 Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       
-      - name: 🌌 Build Valaxy Blog
-        run: pnpm run build
+      - name: 🌌 Build Valaxy Blog (SSG)
+        run: pnpm build:ssg
         env:
           NODE_OPTIONS: --max-old-space-size=4096
       
@@ -79,7 +79,14 @@ jobs:
             
             # Extract new dist
             echo "Extracting new build..."
-            tar -xzf /tmp/dist.tar.gz
+            if ! tar -xzf /tmp/dist.tar.gz; then
+              echo "❌ Failed to extract dist.tar.gz"
+              if [ -d "dist.backup" ]; then
+                echo "Restoring backup..."
+                mv dist.backup dist
+              fi
+              exit 1
+            fi
             
             # Set permissions
             echo "Setting permissions..."
@@ -91,9 +98,16 @@ jobs:
             
             # Reload nginx
             echo "Reloading nginx..."
-            nginx -t && nginx -s reload
+            if nginx -t; then
+              nginx -s reload
+              echo "✅ Deployment completed successfully!"
+            else
+              echo "❌ Nginx config test failed, keeping old dist"
+              rm -rf dist
+              mv dist.backup dist
+              exit 1
+            fi
             
-            echo "✅ Deployment completed successfully!"
             echo "📊 Deployed files:"
             ls -lh dist/ | head -n 10
       
