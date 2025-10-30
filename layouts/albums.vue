@@ -16,10 +16,15 @@
           <button class="yun-btn" @click="goToday">今天</button>
         </div>
   <div class="text-lg font-medium whitespace-nowrap">{{ monthYearLabel }}</div>
-        <button class="yun-btn" @click="openAdminModal" v-if="isUnlocked">
-          <i class="i-ri-add-line" />
-          创建相册
-        </button>
+        <div class="flex items-center gap-2" v-if="isUnlocked">
+          <button class="yun-icon-btn" @click="manageToken" title="配置 GitHub Token">
+            <i class="i-ri-key-line" />
+          </button>
+          <button class="yun-btn" @click="openAdminModal">
+            <i class="i-ri-add-line" />
+            创建相册
+          </button>
+        </div>
       </div>
 
       <div v-if="isUnlocked">
@@ -387,13 +392,36 @@ async function submitAlbum() {
   uploadStatus.value = { type: 'info', message: '正在上传...' }
   
   try {
-    // 获取 GitHub Token (需要从环境变量或配置中读取)
-    const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || ''
+    // 获取 GitHub Token
+    // 方式1: 从环境变量读取
+    let GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string || ''
+    
+    // 方式2: 临时从 localStorage 读取 (备用方案)
+    if (!GITHUB_TOKEN && typeof window !== 'undefined') {
+      GITHUB_TOKEN = localStorage.getItem('GITHUB_TOKEN') || ''
+    }
+    
     const GITHUB_OWNER = 'Kylaan'
     const GITHUB_REPO = 'blog_valaxy'
     
+    console.log('🔍 Token 检查:', {
+      envExists: !!import.meta.env.VITE_GITHUB_TOKEN,
+      tokenExists: !!GITHUB_TOKEN,
+      tokenLength: GITHUB_TOKEN?.length || 0,
+      tokenPrefix: GITHUB_TOKEN?.substring(0, 4) || 'none',
+      allEnvKeys: Object.keys(import.meta.env || {})
+    })
+    
     if (!GITHUB_TOKEN) {
-      throw new Error('未配置 GitHub Token')
+      // 提示用户手动输入 token (临时方案)
+      const userToken = prompt('未检测到 GitHub Token\n\n请输入你的 GitHub Token (ghp_...):\n\n(或者确保 .env 文件中配置了 VITE_GITHUB_TOKEN 并重启服务器)')
+      if (userToken && userToken.trim()) {
+        GITHUB_TOKEN = userToken.trim()
+        // 保存到 localStorage 以便下次使用
+        localStorage.setItem('GITHUB_TOKEN', GITHUB_TOKEN)
+      } else {
+        throw new Error('未配置 GitHub Token。\n\n请检查:\n1. .env 文件中的 VITE_GITHUB_TOKEN\n2. 已重启开发服务器 (pnpm dev)\n3. 或在弹窗中手动输入 Token')
+      }
     }
     
     // 1. 准备文件
@@ -527,6 +555,27 @@ ${photosYaml}
 
 ${description || ''}
 `
+}
+
+function manageToken() {
+  if (typeof window === 'undefined') return
+  
+  const currentToken = localStorage.getItem('GITHUB_TOKEN') || ''
+  const action = currentToken 
+    ? `当前 Token: ${currentToken.substring(0, 10)}...\n\n选择操作:\n- 输入新 Token 替换\n- 点击取消保持不变\n- 输入空值清除`
+    : '请输入你的 GitHub Token (ghp_...)'
+  
+  const newToken = prompt(action, currentToken)
+  
+  if (newToken !== null) {
+    if (newToken.trim()) {
+      localStorage.setItem('GITHUB_TOKEN', newToken.trim())
+      alert('✅ Token 已保存! 你现在可以创建相册了')
+    } else {
+      localStorage.removeItem('GITHUB_TOKEN')
+      alert('Token 已清除')
+    }
+  }
 }
 </script>
 
