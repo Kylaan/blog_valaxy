@@ -424,54 +424,22 @@ async function submitAlbum() {
       }
     }
     
-    // 1. 准备文件
+    // 1. 准备文件数据
     const date = albumForm.value.date
     const photos: any[] = []
+    const blobs: any[] = []
     
-    // 2. 上传图片到 GitHub
-    uploadStatus.value = { type: 'info', message: '正在上传图片...' }
+    uploadStatus.value = { type: 'info', message: '正在准备文件...' }
     
+    // 2. 为每张图片生成文件名和读取内容
     for (let i = 0; i < selectedFiles.value.length; i++) {
       const fileData = selectedFiles.value[i]
       const ext = fileData.name.split('.').pop()
       const filename = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${ext}`
-      const path = `public/albums/${date}/${filename}`
       
       // 读取文件为 base64
       const base64 = await fileToBase64(fileData.file)
       const content = base64.split(',')[1] // 移除 data:image/...;base64, 前缀
-      
-      // 使用 GitHub API 上传
-      console.log(`📤 上传图片 ${i + 1}/${selectedFiles.value.length}:`, path)
-      
-      const response = await fetch(
-        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${GITHUB_TOKEN}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `feat: 添加相册图片 ${date}/${filename}`,
-            content: content,
-            branch: 'main'
-          })
-        }
-      )
-      
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        console.error('❌ 图片上传失败:', {
-          file: filename,
-          status: response.status,
-          statusText: response.statusText,
-          errorData
-        })
-        throw new Error(`上传图片失败 (${response.status}): ${errorData.message || response.statusText}`)
-      }
-      
-      console.log(`✅ 图片上传成功: ${filename}`)
       
       photos.push({
         caption: fileData.caption,
@@ -479,9 +447,14 @@ async function submitAlbum() {
         desc: ''
       })
       
+      blobs.push({
+        path: `public/albums/${date}/${filename}`,
+        content: content
+      })
+      
       uploadStatus.value = { 
         type: 'info', 
-        message: `已上传 ${i + 1}/${selectedFiles.value.length} 张图片` 
+        message: `已准备 ${i + 1}/${selectedFiles.value.length} 张图片` 
       }
     }
     
@@ -494,78 +467,186 @@ async function submitAlbum() {
       photos
     })
     
-    // 4. 上传 Markdown 文件
-    uploadStatus.value = { type: 'info', message: '正在创建相册页面...' }
-    
     const mdPath = `pages/albums/${date}.md`
-    
-    console.log('📝 准备上传 Markdown:', {
+    blobs.push({
       path: mdPath,
-      contentLength: markdown.length,
-      title: albumForm.value.title
+      content: btoa(unescape(encodeURIComponent(markdown))) // UTF-8 to base64
     })
     
-    // 检查文件是否已存在
-    let existingSha: string | null = null
-    try {
-      const checkResponse = await fetch(
-        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${mdPath}`,
+    console.log('📦 准备批量提交:', {
+      filesCount: blobs.length,
+      photos: photos.length,
+      mdPath
+    })
+    
+    // 4. 使用 GitHub API 批量提交所有文件
+    uploadStatus.value = { type: 'info', message: '正在上传到 GitHub...' }
+    
+    // 4.1 获取当前 main 分支的最新 commit SHA
+    const refResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs/heads/main`,
+      {
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`
+        }
+      }
+    )
+    
+    if (!refResponse.ok) {
+      throw new Error(`获取分支信息失败: ${refResponse.statusText}`)
+    }
+    
+    const refData = await refResponse.json()
+    const latestCommitSha = refData.object.sha
+    
+    console.log('📍 最新 commit:', latestCommitSha)
+    
+    // 4.2 创建 blobs (上传文件内容)
+    uploadStatus.value = { type: 'info', message: '正在创建文件对象...' }
+    
+    const blobShas: { path: string; sha: string; mode: string }[] = []
+    
+    for (let i = 0; i < blobs.length; i++) {
+      const blob = blobs[i]
+      const blobResponse = await fetch(
+        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/blobs`,
         {
+          method: 'POST',
           headers: {
-            'Authorization': `token ${GITHUB_TOKEN}`
-          }
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            content: blob.content,
+            encoding: 'base64'
+          })
         }
       )
-      if (checkResponse.ok) {
-        const existingFile = await checkResponse.json()
-        existingSha = existingFile.sha
-        console.log('⚠️ 文件已存在,将更新:', mdPath)
+      
+      if (!blobResponse.ok) {
+        const errorData = await blobResponse.json().catch(() => ({}))
+        throw new Error(`创建文件对象失败 (${blobResponse.status}): ${errorData.message || blobResponse.statusText}`)
       }
-    } catch (e) {
-      // 文件不存在,这是正常的
+      
+      const blobData = await blobResponse.json()
+      blobShas.push({
+        path: blob.path,
+        sha: blobData.sha,
+        mode: '100644' // 普通文件权限
+      })
+      
+      console.log(`✅ 创建 blob ${i + 1}/${blobs.length}:`, blob.path)
     }
     
-    const mdPayload: any = {
-      message: existingSha 
-        ? `feat: 更新相册 ${albumForm.value.title} (${date})`
-        : `feat: 添加相册 ${albumForm.value.title} (${date})`,
-      content: btoa(unescape(encodeURIComponent(markdown))), // UTF-8 to base64
-      branch: 'main'
-    }
-    
-    // 如果文件已存在,需要提供 sha
-    if (existingSha) {
-      mdPayload.sha = existingSha
-    }
-    
-    const mdResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${mdPath}`,
+    // 4.3 获取基础 tree
+    const baseTreeResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/commits/${latestCommitSha}`,
       {
-        method: 'PUT',
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`
+        }
+      }
+    )
+    
+    if (!baseTreeResponse.ok) {
+      throw new Error(`获取基础 tree 失败: ${baseTreeResponse.statusText}`)
+    }
+    
+    const baseCommit = await baseTreeResponse.json()
+    const baseTreeSha = baseCommit.tree.sha
+    
+    // 4.4 创建新 tree (包含所有文件)
+    uploadStatus.value = { type: 'info', message: '正在创建文件树...' }
+    
+    const treeResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees`,
+      {
+        method: 'POST',
         headers: {
           'Authorization': `token ${GITHUB_TOKEN}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(mdPayload)
+        body: JSON.stringify({
+          base_tree: baseTreeSha,
+          tree: blobShas.map(b => ({
+            path: b.path,
+            mode: b.mode,
+            type: 'blob',
+            sha: b.sha
+          }))
+        })
       }
     )
     
-    if (!mdResponse.ok) {
-      const errorData = await mdResponse.json().catch(() => ({}))
-      console.error('❌ Markdown 上传失败:', {
-        status: mdResponse.status,
-        statusText: mdResponse.statusText,
-        errorData
-      })
-      throw new Error(`创建 Markdown 失败 (${mdResponse.status}): ${errorData.message || mdResponse.statusText}`)
+    if (!treeResponse.ok) {
+      const errorData = await treeResponse.json().catch(() => ({}))
+      throw new Error(`创建文件树失败 (${treeResponse.status}): ${errorData.message || treeResponse.statusText}`)
     }
     
-    console.log('✅ Markdown 创建成功')
+    const treeData = await treeResponse.json()
+    console.log('✅ 文件树创建成功:', treeData.sha)
+    
+    // 4.5 创建新 commit
+    uploadStatus.value = { type: 'info', message: '正在创建提交...' }
+    
+    const commitResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/commits`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `feat: 添加相册 ${albumForm.value.title} (${date})`,
+          tree: treeData.sha,
+          parents: [latestCommitSha]
+        })
+      }
+    )
+    
+    if (!commitResponse.ok) {
+      const errorData = await commitResponse.json().catch(() => ({}))
+      throw new Error(`创建提交失败 (${commitResponse.status}): ${errorData.message || commitResponse.statusText}`)
+    }
+    
+    const commitData = await commitResponse.json()
+    console.log('✅ 提交创建成功:', commitData.sha)
+    
+    // 4.6 更新 main 分支指向新 commit
+    uploadStatus.value = { type: 'info', message: '正在更新分支...' }
+    
+    const updateRefResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs/heads/main`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sha: commitData.sha,
+          force: false
+        })
+      }
+    )
+    
+    if (!updateRefResponse.ok) {
+      const errorData = await updateRefResponse.json().catch(() => ({}))
+      console.error('❌ 更新分支失败:', {
+        status: updateRefResponse.status,
+        statusText: updateRefResponse.statusText,
+        errorData
+      })
+      throw new Error(`更新分支失败 (${updateRefResponse.status}): ${errorData.message || updateRefResponse.statusText}`)
+    }
+    
+    console.log('✅ 批量提交成功! Commit:', commitData.sha.substring(0, 7))
     
     // 5. 成功
     uploadStatus.value = { 
       type: 'success', 
-      message: '✅ 相册创建成功! GitHub Actions 将自动部署到服务器...' 
+      message: `✅ 相册创建成功! 已提交 ${blobs.length} 个文件。GitHub Actions 将自动部署到服务器...` 
     }
     
     setTimeout(() => {
