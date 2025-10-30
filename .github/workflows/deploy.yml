@@ -1,8 +1,9 @@
-name: 部署博客到服务器
+name: Deploy to Aliyun Server
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -10,51 +11,100 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: 检出代码
-        uses: actions/checkout@v3
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
-      - name: 安装 pnpm
+      - name: 📦 Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
       
-      - name: 安装 Node.js
-        uses: actions/setup-node@v3
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       
-      - name: 安装依赖
-        run: pnpm install
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
       
-      - name: 构建网站
-        run: pnpm build:ssg
+      - name: 🌌 Build Valaxy Blog
+        run: pnpm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
       
-      - name: 压缩 dist
+      - name: 📊 Check build output
+        run: |
+          echo "=== Build completed ==="
+          ls -lh dist/
+          echo "=== Total size ==="
+          du -sh dist/
+      
+      - name: 📦 Compress dist
         run: tar -czf dist.tar.gz dist
       
-      - name: 上传到服务器
-        uses: appleboy/scp-action@v0.1.4
+      - name: 📤 Upload to server
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
           source: "dist.tar.gz"
           target: "/tmp/"
+          timeout: 10m
       
-      - name: 解压并部署
-        uses: appleboy/ssh-action@v1.0.0
+      - name: 🚀 Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          timeout: 10m
           script: |
+            set -e
+            echo "=== Starting deployment ==="
             cd /www/wwwroot/blog_valaxy
-            rm -rf dist.backup
-            mv dist dist.backup 2>/dev/null || true
+            
+            # Backup current dist
+            if [ -d "dist" ]; then
+              echo "Backing up current dist..."
+              rm -rf dist.backup
+              mv dist dist.backup
+            fi
+            
+            # Extract new dist
+            echo "Extracting new build..."
             tar -xzf /tmp/dist.tar.gz
+            
+            # Set permissions
+            echo "Setting permissions..."
             chown -R www:www dist
             chmod -R 755 dist
-            rm /tmp/dist.tar.gz
-            nginx -s reload
-            echo "✅ 部署完成！"
+            
+            # Clean up
+            rm -f /tmp/dist.tar.gz
+            
+            # Reload nginx
+            echo "Reloading nginx..."
+            nginx -t && nginx -s reload
+            
+            echo "✅ Deployment completed successfully!"
+            echo "📊 Deployed files:"
+            ls -lh dist/ | head -n 10
+      
+      - name: 🎉 Notification
+        if: success()
+        run: |
+          echo "✅ Successfully deployed to Aliyun server!"
+          echo "🌐 Site: https://kylaan.top"
+      
+      - name: ❌ Failure notification
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Please check the logs above for errors."

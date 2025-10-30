@@ -12,6 +12,11 @@
 
 ## 📚 文档导航
 
+### 快速入口
+- **[docs/GITHUB_ACTIONS_DEPLOYMENT.md](./docs/GITHUB_ACTIONS_DEPLOYMENT.md)** - 🚀 GitHub Actions 自动部署（推荐）
+- **[docs/DEPLOYMENT_CHECKLIST.md](./docs/DEPLOYMENT_CHECKLIST.md)** - ✅ 部署配置检查清单
+
+### 完整文档
 - **[PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md)** - 📖 完整项目上下文（新对话必读！）
 - **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - ⚡ 快速参考手册
 - **[docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** - 📝 部署总结

@@ -17,6 +17,7 @@
 
 ### 部署相关
 
+- **[GITHUB_ACTIONS_DEPLOYMENT.md](./docs/GITHUB_ACTIONS_DEPLOYMENT.md)** - 🚀 GitHub Actions 自动部署（推荐）
 - **[DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** - 📝 部署方案总结
 - **[QUICK_START.md](./docs/QUICK_START.md)** - 🎯 快速开始指南
 
@@ -43,6 +44,7 @@
 
 | 文档 | 用途 | 受众 |
 |------|------|------|
+| [docs/GITHUB_ACTIONS_DEPLOYMENT.md](./docs/GITHUB_ACTIONS_DEPLOYMENT.md) | GitHub Actions 自动部署完整指南 | DevOps |
 | [docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md) | 所有部署方案对比 | DevOps |
 | [docs/QUICK_START.md](./docs/QUICK_START.md) | 本地开发快速开始 | 开发者 |
 
@@ -64,8 +66,9 @@
 
 ### 场景 3: 我需要部署项目
 
-1. 阅读 **[docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** 选择部署方案
-2. 查看 **[PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md)** 的"部署系统"章节
+1. 推荐使用 **[docs/GITHUB_ACTIONS_DEPLOYMENT.md](./docs/GITHUB_ACTIONS_DEPLOYMENT.md)** GitHub Actions 自动部署
+2. 或者阅读 **[docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** 选择其他部署方案
+3. 查看 **[PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md)** 的"部署系统"章节了解详情
 
 ### 场景 4: 我遇到问题需要调试
 
