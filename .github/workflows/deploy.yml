@@ -44,7 +44,10 @@ jobs:
           du -sh dist/
       
       - name: 📦 Compress dist
-        run: tar -czf dist.tar.gz dist
+        run: |
+          tar -czf dist.tar.gz dist
+          echo "✅ Compressed: $(du -h dist.tar.gz | cut -f1)"
+          ls -lh dist.tar.gz
       
       - name: 📤 Upload to server
         uses: appleboy/scp-action@v0.1.7
@@ -56,6 +59,22 @@ jobs:
           source: "dist.tar.gz"
           target: "/tmp/"
           timeout: 10m
+          strip_components: 0
+      
+      - name: ✅ Verify upload
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            if [ -f "/tmp/dist.tar.gz" ]; then
+              echo "✅ Upload successful: $(du -h /tmp/dist.tar.gz | cut -f1)"
+            else
+              echo "❌ Upload failed: /tmp/dist.tar.gz not found"
+              exit 1
+            fi
       
       - name: 🚀 Deploy to server
         uses: appleboy/ssh-action@v1.0.3
@@ -68,6 +87,17 @@ jobs:
           script: |
             set -e
             echo "=== Starting deployment ==="
+            
+            # Check if dist.tar.gz exists
+            if [ ! -f "/tmp/dist.tar.gz" ]; then
+              echo "❌ Error: /tmp/dist.tar.gz not found!"
+              echo "File upload may have failed."
+              ls -lh /tmp/ | grep dist || echo "No dist files in /tmp/"
+              exit 1
+            fi
+            
+            echo "✅ Found dist.tar.gz ($(du -h /tmp/dist.tar.gz | cut -f1))"
+            
             cd /www/wwwroot/blog_valaxy
             
             # Backup current dist
