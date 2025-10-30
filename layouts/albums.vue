@@ -132,13 +132,23 @@
         <div v-if="uploadStatus" class="status-message" :class="uploadStatus.type">
           {{ uploadStatus.message }}
         </div>
+        
+        <div v-if="!canSubmit && !isUploading" class="status-message info">
+          <template v-if="!albumForm.title">⚠️ 请填写标题</template>
+          <template v-else-if="selectedFiles.length === 0">⚠️ 请至少选择一张图片</template>
+        </div>
       </div>
       
       <div class="modal-footer">
         <button class="yun-btn yun-btn-ghost" @click="closeAdminModal" :disabled="isUploading">
           取消
         </button>
-        <button class="yun-btn" @click="submitAlbum" :disabled="isUploading || !canSubmit">
+        <button 
+          class="yun-btn" 
+          @click="submitAlbum" 
+          :disabled="isUploading || !canSubmit"
+          :title="!canSubmit ? '请填写标题并上传至少一张图片' : ''"
+        >
           {{ isUploading ? '上传中...' : '创建相册' }}
         </button>
       </div>
@@ -880,6 +890,12 @@ function manageToken() {
   justify-content: flex-end;
   padding: 1.25rem 1.5rem;
   border-top: 1px solid rgba(var(--va-c-text-rgb), 0.1);
+}
+
+.modal-footer button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  filter: grayscale(0.3);
 }
 
 .form-group {
