@@ -24,9 +24,11 @@ declare module 'vue-router/auto-routes' {
     '/about/': RouteRecordInfo<'/about/', '/about', Record<never, never>, Record<never, never>>,
     '/about/site': RouteRecordInfo<'/about/site', '/about/site', Record<never, never>, Record<never, never>>,
     '/albums/': RouteRecordInfo<'/albums/', '/albums', Record<never, never>, Record<never, never>>,
+    '/albums/2025-09-30': RouteRecordInfo<'/albums/2025-09-30', '/albums/2025-09-30', Record<never, never>, Record<never, never>>,
     '/albums/2025-10-01': RouteRecordInfo<'/albums/2025-10-01', '/albums/2025-10-01', Record<never, never>, Record<never, never>>,
     '/albums/2025-10-10': RouteRecordInfo<'/albums/2025-10-10', '/albums/2025-10-10', Record<never, never>, Record<never, never>>,
     '/albums/2025-10-14': RouteRecordInfo<'/albums/2025-10-14', '/albums/2025-10-14', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-16': RouteRecordInfo<'/albums/2025-10-16', '/albums/2025-10-16', Record<never, never>, Record<never, never>>,
     '/albums/2025-10-17': RouteRecordInfo<'/albums/2025-10-17', '/albums/2025-10-17', Record<never, never>, Record<never, never>>,
     '/albums/2025-10-20': RouteRecordInfo<'/albums/2025-10-20', '/albums/2025-10-20', Record<never, never>, Record<never, never>>,
     '/albums/2025-10-22': RouteRecordInfo<'/albums/2025-10-22', '/albums/2025-10-22', Record<never, never>, Record<never, never>>,
@@ -87,6 +89,10 @@ declare module 'vue-router/auto-routes' {
       routes: '/albums/'
       views: never
     }
+    'pages/albums/2025-09-30.md': {
+      routes: '/albums/2025-09-30'
+      views: never
+    }
     'pages/albums/2025-10-01.md': {
       routes: '/albums/2025-10-01'
       views: never
@@ -97,6 +103,10 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/albums/2025-10-14.md': {
       routes: '/albums/2025-10-14'
+      views: never
+    }
+    'pages/albums/2025-10-16.md': {
+      routes: '/albums/2025-10-16'
       views: never
     }
     'pages/albums/2025-10-17.md': {
