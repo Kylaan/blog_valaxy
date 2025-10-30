@@ -5,7 +5,7 @@
 
 ## 📌 一句话概述
 
-基于 **Valaxy 0.26.3** 的个人博客，包含自定义相册管理系统，使用阿里云云效自动部署到 **https://kylaan.top**。
+基于 **Valaxy 0.26.3** 的个人博客，包含自定义相册管理系统，部署到 **https://kylaan.top**。
 
 ---
 
@@ -15,8 +15,7 @@
 Valaxy (Vue 3 SSR) + valaxy-theme-yun
 ├── 相册管理系统 (album-admin/)     # Express + Multer
 ├── 自定义日历布局 (layouts/albums.vue)
-├── 内容页面 (pages/)                # Markdown 文件
-└── 阿里云云效部署 (.flow.yml)
+└── 内容页面 (pages/)                # Markdown 文件
 ```
 
 ---
@@ -27,7 +26,6 @@ Valaxy (Vue 3 SSR) + valaxy-theme-yun
 |------|------|--------|
 | `album-admin/server.js` | 相册上传后端 | ⭐⭐⭐⭐⭐ |
 | `layouts/albums.vue` | 相册日历组件（含日期修复） | ⭐⭐⭐⭐⭐ |
-| `.flow.yml` | 云效自动部署配置 | ⭐⭐⭐⭐ |
 | `valaxy.config.ts` | Valaxy 主配置 | ⭐⭐⭐ |
 | `site.config.ts` | 网站元数据 | ⭐⭐⭐ |
 
@@ -44,7 +42,7 @@ cd album-admin && node server.js     # 相册管理 (http://127.0.0.1:3000)
 pnpm build:ssg                       # 静态站点生成
 
 # 部署
-git push origin main                 # 触发云效自动部署
+git push origin main                 # 推送到 GitHub
 
 # 服务器
 ssh root@47.104.216.235              # 连接服务器
@@ -120,7 +118,7 @@ const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStar
 
 **问题**: `pnpm build:ssg` 崩溃
 
-**解决**: 使用阿里云云效在云端构建（2GB 内存）
+**解决**: 在构建命令中增加内存限制：`NODE_OPTIONS="--max-old-space-size=2048"`
 
 ### 3. 增量构建失败
 
@@ -151,15 +149,7 @@ const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStar
 ```
 git push origin main
   ↓
-阿里云云效监听 webhook
-  ↓
-云端构建 (pnpm install + build:ssg)
-  ↓
-打包 (tar -czf dist.tar.gz)
-  ↓
-SSH 上传到服务器
-  ↓
-解压并重启 Nginx
+（待配置自动部署）
 ```
 
 ---
@@ -184,7 +174,6 @@ blog_valaxy/
 │   ├── albums/          # 相册 MD 文件
 │   └── posts/           # 博客文章
 ├── public/albums/       # 相册图片
-├── .flow.yml            # 云效配置
 └── PROJECT_CONTEXT.md   # 完整文档 ⭐
 ```
 

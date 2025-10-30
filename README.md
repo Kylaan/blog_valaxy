@@ -14,7 +14,6 @@
 
 - **[PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md)** - 📖 完整项目上下文（新对话必读！）
 - **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - ⚡ 快速参考手册
-- **[docs/ALIYUN_FLOW_GUIDE.md](./docs/ALIYUN_FLOW_GUIDE.md)** - 🚀 阿里云云效部署指南
 - **[docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** - 📝 部署总结
 - **[docs/QUICK_START.md](./docs/QUICK_START.md)** - 🎯 快速开始
 
@@ -44,7 +43,6 @@ pnpm build:ssg
 - ✅ 基于 Valaxy 的现代博客框架
 - ✅ 自定义相册管理系统（照片上传 + 自动构建）
 - ✅ 交互式相册日历布局
-- ✅ 阿里云云效自动化部署
 - ✅ Waline 评论系统
 - ✅ LightGallery 图片画廊
 - ✅ 响应式设计
@@ -69,7 +67,6 @@ pnpm build:ssg
 - **主题**: valaxy-theme-yun
 - **前端**: Vue 3 + Vite
 - **后端**: Express.js (相册管理)
-- **部署**: 阿里云云效 Flow
 - **服务器**: Nginx + PM2
 
 ---

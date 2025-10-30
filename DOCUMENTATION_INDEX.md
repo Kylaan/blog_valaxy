@@ -17,7 +17,6 @@
 
 ### 部署相关
 
-- **[ALIYUN_FLOW_GUIDE.md](./docs/ALIYUN_FLOW_GUIDE.md)** - 🚀 阿里云云效部署完整指南
 - **[DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** - 📝 部署方案总结
 - **[QUICK_START.md](./docs/QUICK_START.md)** - 🎯 快速开始指南
 
@@ -44,7 +43,6 @@
 
 | 文档 | 用途 | 受众 |
 |------|------|------|
-| [docs/ALIYUN_FLOW_GUIDE.md](./docs/ALIYUN_FLOW_GUIDE.md) | 阿里云云效自动部署配置 | DevOps |
 | [docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md) | 所有部署方案对比 | DevOps |
 | [docs/QUICK_START.md](./docs/QUICK_START.md) | 本地开发快速开始 | 开发者 |
 
@@ -67,8 +65,7 @@
 ### 场景 3: 我需要部署项目
 
 1. 阅读 **[docs/DEPLOYMENT_SUMMARY.md](./docs/DEPLOYMENT_SUMMARY.md)** 选择部署方案
-2. 如果使用阿里云，参考 **[docs/ALIYUN_FLOW_GUIDE.md](./docs/ALIYUN_FLOW_GUIDE.md)**
-3. 查看 **[PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md)** 的"部署系统"章节
+2. 查看 **[PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md)** 的"部署系统"章节
 
 ### 场景 4: 我遇到问题需要调试
 
@@ -88,8 +85,8 @@
 |------|------|--------|
 | 核心文档 | 3 | ~8,000 |
 | AI 文档 | 2 | ~2,000 |
-| 部署文档 | 3 | ~5,000 |
-| **总计** | **8** | **~15,000** |
+| 部署文档 | 2 | ~3,000 |
+| **总计** | **7** | **~13,000** |
 
 ---
 
@@ -98,7 +95,6 @@
 - [Valaxy 官方文档](https://valaxy.site/)
 - [valaxy-theme-yun 文档](https://yun.valaxy.site/)
 - [Vue 3 文档](https://vuejs.org/)
-- [阿里云云效](https://devops.aliyun.com/)
 
 ---
 

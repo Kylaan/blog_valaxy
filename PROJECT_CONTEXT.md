@@ -9,7 +9,6 @@
 - **框架**: Valaxy + Vue 3 + Vite
 - **主题**: valaxy-theme-yun
 - **包管理器**: pnpm
-- **部署方式**: 阿里云云效 Flow 自动化部署
 - **服务器**: 阿里云轻量服务器 47.104.216.235
 - **域名**: https://kylaan.top
 - **Node.js**: v20+ (本地) / v25.1.0 (服务器)
@@ -60,7 +59,6 @@ blog_valaxy/
 │   └── index.scss                 # 全局样式
 │
 ├── docs/                           # 📚 项目文档
-│   ├── ALIYUN_FLOW_GUIDE.md       # 阿里云云效部署指南
 │   ├── DEPLOYMENT_SUMMARY.md       # 部署总结
 │   └── QUICK_START.md             # 快速开始
 │
@@ -68,7 +66,6 @@ blog_valaxy/
 │   ├── auto-commit.bat            # Windows 自动提交
 │   └── auto-commit.sh             # Linux 自动提交
 │
-├── .flow.yml                       # ⚙️ 阿里云云效配置（关键）
 ├── valaxy.config.ts               # Valaxy 主配置
 ├── site.config.ts                 # 网站元数据配置
 ├── locales/                        # 国际化文件
@@ -143,31 +140,11 @@ const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStar
 
 ### 3. 部署系统
 
-#### 方式 1: 阿里云云效 Flow（主要）
-
-**配置文件**: `.flow.yml`
-
-**流程**:
-1. 监听 `main` 分支 push 事件
-2. 在云效服务器上构建（`pnpm install` + `pnpm build:ssg`）
-3. 通过 SSH 上传 `dist.tar.gz` 到服务器
-4. 自动解压并重新加载 Nginx
-
-**关键配置**:
-```yaml
-deploy:
-  image: registry.cn-beijing.aliyuncs.com/aliyun-fc/runtime-nodejs20:build-2.0.4
-  steps:
-    - run: pnpm install
-    - run: pnpm build:ssg
-    - run: tar -czf dist.tar.gz dist
-    - run: scp dist.tar.gz root@47.104.216.235:/tmp/
-    - run: ssh root@47.104.216.235 "cd /www/wwwroot/blog_valaxy && ..."
-```
-
-#### 方式 2: GitHub Actions（备用）
+#### GitHub Actions（可选）
 
 **配置文件**: `.github/workflows/deploy.yml`
+
+**说明**: 可以配置 GitHub Actions 自动构建并部署到服务器。
 
 ---
 
@@ -241,12 +218,10 @@ tags: [Vue, Valaxy]
 # 本地构建（用于测试）
 pnpm build:ssg
 
-# 推送到 GitHub 触发自动部署
+# 推送到 GitHub
 git add .
 git commit -m "feat: 添加新内容"
 git push origin main
-
-# 阿里云云效自动构建并部署
 ```
 
 ---
@@ -303,9 +278,7 @@ chmod -R 755 /www/wwwroot/blog_valaxy/dist
 
 **问题**: `pnpm build:ssg` 失败，提示 "JavaScript heap out of memory"。
 
-**解决**: 
-- 在构建命令中增加内存限制：`NODE_OPTIONS="--max-old-space-size=2048"`
-- 或使用云效 Flow 在云端构建（推荐）
+**解决**: 在构建命令中增加内存限制：`NODE_OPTIONS="--max-old-space-size=2048"`
 
 ### 3. 照片上传后网站不更新
 
@@ -361,7 +334,6 @@ chmod -R 755 /www/wwwroot/blog_valaxy/dist
 | `site.config.ts` | 网站元数据 | 偶尔 |
 | `layouts/albums.vue` | 相册日历组件 | 很少 |
 | `album-admin/server.js` | 相册上传后端 | 很少 |
-| `.flow.yml` | 云效部署配置 | 很少 |
 | `pages/posts/*.md` | 博客文章 | 频繁 |
 | `pages/albums/*.md` | 相册内容 | 频繁 |
 
@@ -416,7 +388,7 @@ cd album-admin && node server.js  # 启动相册管理
 pnpm build:ssg             # 静态站点生成
 
 # 部署
-git push origin main       # 触发云效自动部署
+git push origin main       # 推送到 GitHub
 
 # 服务器
 ssh root@47.104.216.235    # 连接服务器

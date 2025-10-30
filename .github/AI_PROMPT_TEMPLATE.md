@@ -29,18 +29,15 @@
 - Valaxy 0.26.3 (Vue 3 SSR)
 - valaxy-theme-yun
 - Express.js (相册管理后端)
-- 阿里云云效 Flow 自动部署
 
 ### 核心功能
 - ✅ 博客文章发布
 - ✅ 相册管理系统（照片上传 + 自动构建）
 - ✅ 交互式日历布局
-- ✅ 自动化部署
 
 ### 重要文件
 - `album-admin/server.js` - 相册上传后端（Express）
 - `layouts/albums.vue` - 相册日历组件（Vue 3）
-- `.flow.yml` - 阿里云云效部署配置
 - `valaxy.config.ts` - Valaxy 主配置
 - `site.config.ts` - 网站元数据
 
@@ -90,7 +87,7 @@ cd album-admin && node server.js     # 相册管理系统
 pnpm build:ssg                       # 静态站点生成
 
 # 部署
-git push origin main                 # 触发云效自动部署
+git push origin main                 # 推送到 GitHub
 
 # 服务器
 ssh root@47.104.216.235
