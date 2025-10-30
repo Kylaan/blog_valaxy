@@ -175,9 +175,12 @@ function buildCells(year: number, month: number) {
   // current month
   for (let day = 1; day <= totalDays; day++) {
     const d = new Date(year, month, day)
-    const key = d.toISOString().slice(0, 10)
+    // 使用本地日期格式，避免时区问题
+    const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     const page = pagesByDate.value[key]
-    cells.push({ date: d, inMonth: true, key: d.toISOString(), hasAlbum: !!page, page, isToday: key === (new Date()).toISOString().slice(0,10) })
+    const today = new Date()
+    const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    cells.push({ date: d, inMonth: true, key: d.toISOString(), hasAlbum: !!page, page, isToday: key === todayKey })
   }
 
   // fill next month's head to complete week rows

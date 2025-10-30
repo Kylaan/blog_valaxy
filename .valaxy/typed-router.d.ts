@@ -24,6 +24,14 @@ declare module 'vue-router/auto-routes' {
     '/about/': RouteRecordInfo<'/about/', '/about', Record<never, never>, Record<never, never>>,
     '/about/site': RouteRecordInfo<'/about/site', '/about/site', Record<never, never>, Record<never, never>>,
     '/albums/': RouteRecordInfo<'/albums/', '/albums', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-01': RouteRecordInfo<'/albums/2025-10-01', '/albums/2025-10-01', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-10': RouteRecordInfo<'/albums/2025-10-10', '/albums/2025-10-10', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-14': RouteRecordInfo<'/albums/2025-10-14', '/albums/2025-10-14', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-17': RouteRecordInfo<'/albums/2025-10-17', '/albums/2025-10-17', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-20': RouteRecordInfo<'/albums/2025-10-20', '/albums/2025-10-20', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-22': RouteRecordInfo<'/albums/2025-10-22', '/albums/2025-10-22', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-29': RouteRecordInfo<'/albums/2025-10-29', '/albums/2025-10-29', Record<never, never>, Record<never, never>>,
+    '/albums/2025-10-30': RouteRecordInfo<'/albums/2025-10-30', '/albums/2025-10-30', Record<never, never>, Record<never, never>>,
     '/albums/daily': RouteRecordInfo<'/albums/daily', '/albums/daily', Record<never, never>, Record<never, never>>,
     '/albums/miracle': RouteRecordInfo<'/albums/miracle', '/albums/miracle', Record<never, never>, Record<never, never>>,
     '/albums/sunset': RouteRecordInfo<'/albums/sunset', '/albums/sunset', Record<never, never>, Record<never, never>>,
@@ -55,11 +63,11 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'node_modules/.pnpm/valaxy-theme-yun@0.26.3_vue@3.5.20_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/index.vue': {
+    'node_modules/valaxy-theme-yun/pages/index.vue': {
       routes: '/'
       views: never
     }
-    'node_modules/.pnpm/valaxy@0.26.3_@babel+parser_2fe5321f6fe3dd6b2dd734ca10cd5db0/node_modules/valaxy/client/pages/[...path].vue': {
+    'node_modules/valaxy/client/pages/[...path].vue': {
       routes: '/[...path]'
       views: never
     }
@@ -77,6 +85,38 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/albums/index.md': {
       routes: '/albums/'
+      views: never
+    }
+    'pages/albums/2025-10-01.md': {
+      routes: '/albums/2025-10-01'
+      views: never
+    }
+    'pages/albums/2025-10-10.md': {
+      routes: '/albums/2025-10-10'
+      views: never
+    }
+    'pages/albums/2025-10-14.md': {
+      routes: '/albums/2025-10-14'
+      views: never
+    }
+    'pages/albums/2025-10-17.md': {
+      routes: '/albums/2025-10-17'
+      views: never
+    }
+    'pages/albums/2025-10-20.md': {
+      routes: '/albums/2025-10-20'
+      views: never
+    }
+    'pages/albums/2025-10-22.md': {
+      routes: '/albums/2025-10-22'
+      views: never
+    }
+    'pages/albums/2025-10-29.md': {
+      routes: '/albums/2025-10-29'
+      views: never
+    }
+    'pages/albums/2025-10-30.md': {
+      routes: '/albums/2025-10-30'
       views: never
     }
     'pages/albums/daily.md': {
@@ -115,11 +155,11 @@ declare module 'vue-router/auto-routes' {
       routes: '/links/'
       views: never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@0.26.3_vue@3.5.20_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
+    'node_modules/valaxy-theme-yun/pages/page/[page].vue': {
       routes: '/page/[page]'
       views: never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@0.26.3_vue@3.5.20_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
+    'node_modules/valaxy-theme-yun/pages/posts/index.vue': {
       routes: '/posts/'
       views: never
     }

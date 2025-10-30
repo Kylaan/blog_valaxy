@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://Kylaan.top/sitemap.xml
+ssss

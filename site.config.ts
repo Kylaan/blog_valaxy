@@ -2,7 +2,7 @@
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
-  url: 'https://kylaan.github.io/blog_valaxy/',
+  url: 'https://Kylaan.top/',
   lang: 'zh-CN',
   title: "Kylaan's Blog",
   subtitle: '欢迎来到我的小站',
